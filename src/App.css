@@ -1,75 +1,613 @@
+/* ==========================================================================
+   Tiny Aquarium - Phase 1 & 2 Stylesheet
+   Modern Glassmorphic Living Terrarium Aesthetic
+   ========================================================================== */
+
+:root {
+  --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --bg-deep: #ffffff;
+  --bg-surface: rgba(15, 23, 42, 0.85);
+  --water-top: #06b6d4;
+  --water-mid: #0284c7;
+  --water-deep: #0f172a;
+  --sand-top: #eab308;
+  --sand-mid: #ca8a04;
+  --sand-bottom: #854d0e;
+  --glass-border: rgba(255, 255, 255, 0.22);
+  --glass-highlight: rgba(255, 255, 255, 0.35);
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  --accent-cyan: #38bdf8;
+  --accent-emerald: #10b981;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
 body {
   margin: 0;
-  font-family:
-    system-ui,
-    -apple-system,
-    sans-serif;
+  padding: 0;
+  background-color: var(--bg-deep);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* App shell & Page layout */
+.app-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.page-container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1.5rem 1rem 3rem;
+}
+
+.loading-state {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 50vh;
+  font-size: 1.25rem;
+  color: var(--accent-cyan);
+}
+
+/* Aquarium Main Wrapper */
+.aquarium-wrapper {
+  width: 100%;
+  max-width: 980px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+/* Header */
+.aquarium-header {
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  color: black;
 }
 
-nav {
-  padding: 1rem;
-  background-color: #282c34;
+.header-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
 }
 
-nav > a {
-  display: inline-block;
-  margin: 0 0.125rem;
-  padding: 0.4rem 0.75rem;
-  border-radius: 0.5rem;
-  color: #93c5fd;
-  font-weight: 600;
-  text-decoration: none;
-  transition:
-    background-color 150ms ease,
-    color 150ms ease;
+.aquarium-header h1 {
+  margin: 0;
+  font-size: 2.25rem;
+  font-weight: 800;
+  letter-spacing: -0.025em;
 }
 
-nav > a:hover {
-  background-color: rgb(255 255 255 / 10%);
-  color: #dbeafe;
+.header-badge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.25rem 0.65rem;
+  border-radius: 9999px;
+  background: rgba(56, 189, 248, 0.15);
+  color: var(--accent-cyan);
+  border: 1px solid rgba(56, 189, 248, 0.35);
 }
 
-main {
-  padding: 3rem 1rem;
+.header-subtitle {
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--text-secondary);
 }
 
-.logo {
-  animation: logo-spin infinite 20s linear;
-  height: 24vmin;
+/* Glass Tank Container */
+.aquarium-tank {
+  position: relative;
+  width: 100%;
+  height: 480px;
+  border-radius: 24px;
+  overflow: hidden;
+  background: linear-gradient(180deg,
+      #0891b2 0%,
+      #0284c7 35%,
+      #0369a1 70%,
+      #0c4a6e 90%,
+      #072942 100%);
+  border: 4px solid var(--glass-border);
+  user-select: none;
+}
+
+/* Glass Shine & Highlights */
+.aquarium-glass-shine {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 45%;
+  background: linear-gradient(160deg,
+      rgba(255, 255, 255, 0.2) 0%,
+      rgba(255, 255, 255, 0.05) 30%,
+      transparent 65%);
   pointer-events: none;
+  z-index: 10;
 }
 
-.increment {
-  font-size: 1rem;
-  padding: 0.5rem 1.5rem;
-  cursor: pointer;
+/* Water Caustics Animation */
+.aquarium-caustics {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 90px;
+  background: radial-gradient(ellipse 60% 40% at 30% 0%,
+      rgba(255, 255, 255, 0.25) 0%,
+      transparent 80%),
+    radial-gradient(ellipse 70% 50% at 75% 0%,
+      rgba(255, 255, 255, 0.22) 0%,
+      transparent 80%);
+  mix-blend-mode: overlay;
+  pointer-events: none;
+  animation: caustic-shimmer 6s ease-in-out infinite alternate;
+  z-index: 5;
 }
 
-main a {
-  color: #1d5f91;
-  font-weight: 600;
-  text-decoration-color: #7bb6df;
-  text-decoration-thickness: 0.1em;
-  text-underline-offset: 0.2em;
-  transition: color 150ms ease;
-}
-
-main a:hover {
-  color: #123f63;
-}
-
-a:focus-visible {
-  outline: 3px solid #0284c7;
-  outline-offset: 3px;
-  border-radius: 0.2rem;
-}
-
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
+@keyframes caustic-shimmer {
+  0% {
+    opacity: 0.6;
+    transform: scaleX(1);
   }
+
+  100% {
+    opacity: 0.95;
+    transform: scaleX(1.08);
+  }
+}
+
+/* Sand & Substrate Bed */
+.aquarium-sand {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 52px;
+  background: linear-gradient(180deg,
+      #d97706 0%,
+      #b45309 35%,
+      #78350f 100%);
+  border-top: 3px solid #f59e0b;
+  box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.3);
+  z-index: 2;
+}
+
+.sand-texture {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: radial-gradient(rgba(0, 0, 0, 0.15) 15%, transparent 16%);
+  background-size: 8px 8px;
+  opacity: 0.7;
+}
+
+.sand-pebble {
+  position: absolute;
+  background: #475569;
+  border-radius: 50%;
+  box-shadow: inset 1px 1px 2px rgba(255, 255, 255, 0.4), 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.sand-pebble.p1 {
+  left: 18%;
+  bottom: 12px;
+  width: 14px;
+  height: 8px;
+  transform: rotate(-10deg);
+}
+
+.sand-pebble.p2 {
+  left: 38%;
+  bottom: 16px;
+  width: 10px;
+  height: 6px;
+  background: #64748b;
+}
+
+.sand-pebble.p3 {
+  left: 64%;
+  bottom: 10px;
+  width: 16px;
+  height: 9px;
+  transform: rotate(15deg);
+}
+
+.sand-pebble.p4 {
+  left: 82%;
+  bottom: 14px;
+  width: 12px;
+  height: 7px;
+  background: #334155;
+}
+
+/* Ambient Bubbles */
+.ambient-bubbles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 4;
+}
+
+.ambient-bubble {
+  position: absolute;
+  bottom: -20px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.15) 60%, rgba(255, 255, 255, 0.4) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 0 0 6px rgba(255, 255, 255, 0.3);
+  animation: bubble-float linear infinite;
+}
+
+.ambient-bubble.b1 {
+  left: 15%;
+  width: 12px;
+  height: 12px;
+  animation-duration: 9s;
+  animation-delay: 0s;
+}
+
+.ambient-bubble.b2 {
+  left: 32%;
+  width: 8px;
+  height: 8px;
+  animation-duration: 12s;
+  animation-delay: 2s;
+}
+
+.ambient-bubble.b3 {
+  left: 52%;
+  width: 15px;
+  height: 15px;
+  animation-duration: 8s;
+  animation-delay: 4s;
+}
+
+.ambient-bubble.b4 {
+  left: 70%;
+  width: 10px;
+  height: 10px;
+  animation-duration: 11s;
+  animation-delay: 1s;
+}
+
+.ambient-bubble.b5 {
+  left: 86%;
+  width: 14px;
+  height: 14px;
+  animation-duration: 10s;
+  animation-delay: 3s;
+}
+
+@keyframes bubble-float {
+  0% {
+    transform: translateY(0) translateX(0);
+    opacity: 0;
+  }
+
+  15% {
+    opacity: 0.85;
+  }
+
+  50% {
+    transform: translateY(-240px) translateX(12px);
+  }
+
+  85% {
+    opacity: 0.7;
+  }
+
+  100% {
+    transform: translateY(-520px) translateX(-8px);
+    opacity: 0;
+  }
+}
+
+/* Decorations Layer */
+.decorations-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.decoration {
+  position: absolute;
+  transform-origin: bottom center;
+}
+
+.decoration-plant {
+  animation: plant-sway 5s ease-in-out infinite alternate;
+}
+
+.decoration:nth-child(2).decoration-plant {
+  animation-duration: 4.2s;
+  animation-delay: -1.5s;
+}
+
+.decoration:nth-child(6).decoration-plant {
+  animation-duration: 5.8s;
+  animation-delay: -2.7s;
+}
+
+@keyframes plant-sway {
+  0% {
+    transform: rotate(-3deg) skewX(-2deg);
+  }
+
+  100% {
+    transform: rotate(4deg) skewX(3deg);
+  }
+}
+
+/* Fish Layer & Sprite */
+.fish-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 6;
+}
+
+.fish-container {
+  position: absolute;
+  cursor: pointer;
+  outline: none;
+  transition: left 0.12s linear, top 0.12s linear;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.fish-container:hover .fish-sprite {
+  filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.65));
+}
+
+.fish-container:hover .fish-nametag {
+  opacity: 1;
+  transform: translateY(-2px);
+}
+
+.fish-nametag {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #f1f5f9;
+  padding: 0.15rem 0.45rem;
+  white-space: nowrap;
+  pointer-events: none;
+  opacity: 0.85;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  margin-bottom: 2px;
+}
+
+.fish-sprite {
+  display: inline-block;
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transform-origin: center center;
+}
+
+.fish-svg {
+  display: block;
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.35));
+}
+
+/* Fish Animated Fins */
+.fish-tail-fin {
+  transform-origin: 20px 28px;
+  animation: tail-wag 0.8s ease-in-out infinite alternate;
+}
+
+.fish-pectoral-fin {
+  transform-origin: 46px 32px;
+  animation: fin-flutter 0.6s ease-in-out infinite alternate;
+}
+
+@keyframes tail-wag {
+  0% {
+    transform: rotate(-10deg);
+  }
+
+  100% {
+    transform: rotate(12deg);
+  }
+}
+
+@keyframes fin-flutter {
+  0% {
+    transform: rotate(-8deg);
+  }
+
+  100% {
+    transform: rotate(10deg);
+  }
+}
+
+/* Toast Notification inside Tank */
+.aquarium-toast {
+  position: absolute;
+  top: 1.25rem;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 1px solid var(--accent-cyan);
+  color: #f0f9ff;
+  font-weight: 600;
+  font-size: 0.85rem;
+  padding: 0.4rem 1rem;
+  z-index: 20;
+  animation: toast-in 0.25s ease-out;
+}
+
+@keyframes toast-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -10px);
+  }
+
   to {
-    transform: rotate(360deg);
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+/* Controls Panel */
+.aquarium-controls-panel {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.5rem;
+  background-color: white;
+  border: solid 1px black;
+}
+
+.controls-stats {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.stat-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: rgba(30, 41, 59, 0.8);
+  padding: 0.4rem 0.85rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.stat-icon {
+  font-size: 1.1rem;
+}
+
+.stat-label {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.stat-value {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.controls-buttons {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-family: inherit;
+  font-size: 0.875rem;
+  font-weight: 600;
+  padding: 0.55rem 1.1rem;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  border: none;
+  outline: none;
+}
+
+.btn:active {
+  transform: scale(0.97);
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(2, 132, 199, 0.35);
+  border: 1px solid rgba(56, 189, 248, 0.4);
+}
+
+.btn-primary:hover {
+  background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+  box-shadow: 0 6px 16px rgba(2, 132, 199, 0.5);
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  background: rgba(30, 41, 59, 0.85);
+  color: #e2e8f0;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.btn-secondary:hover {
+  background: rgba(51, 65, 85, 0.9);
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.25);
+  transform: translateY(-1px);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--text-secondary);
+  border: 1px solid transparent;
+}
+
+.btn-ghost:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text-primary);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+@keyframes float-gentle {
+  from {
+    transform: translateY(0);
+  }
+
+  to {
+    transform: translateY(-4px);
+  }
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .aquarium-tank {
+    height: 360px;
+  }
+
+  .aquarium-header h1 {
+    font-size: 1.75rem;
+  }
+
+  .aquarium-controls-panel {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .controls-buttons {
+    flex-wrap: wrap;
+    justify-content: stretch;
+  }
+
+  .controls-buttons .btn {
+    flex: 1 1 calc(50% - 0.5rem);
+    justify-content: center;
   }
 }
